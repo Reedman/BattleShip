@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:orientation="vertical" android:layout_width="fill_parent"  
+    android:layout_height="wrap_content" android:id="@+id/myListItem"  
+    android:paddingBottom="5dip" android:paddingLeft="12dip"  
+    android:paddingRight="12dip">  
+    <ImageView android:id="@+id/img" android:layout_width="wrap_content"  
+        android:layout_height="wrap_content" android:layout_alignParentLeft="true"></ImageView>  
+    <TextView android:layout_height="wrap_content"  
+        android:layout_width="wrap_content" android:id="@+id/itemTitle"  
+        android:textSize="20dip" android:paddingTop="15px"  
+        android:layout_marginLeft="70px">  
+    </TextView>  
+    <CheckBox android:id="@+id/cb" android:layout_width="wrap_content"  
+        android:layout_height="wrap_content" android:layout_alignParentRight="true"  
+        android:focusable="false">
+    </CheckBox>  
+</RelativeLayout>  

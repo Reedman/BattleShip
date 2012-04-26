@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<JinUzuki.Game.BattleShip.StageView
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+ 	    class="JinUzuki.Game.BattleShip.StageView"
+        android:id="@+id/stageview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/toolbar"
+        android:layout_below="@id/actionbar">
+    
+</JinUzuki.Game.BattleShip.StageView>
+        

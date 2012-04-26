@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, BattleShipActivity!</string>
+    <string name="app_name">BattleShip</string>
+	<string name="bshipID">001</string>
+	<string name="cshipID">002</string>
+	<string name="mshipID">003</string>
+	<string name="dshipID">004</string>
+	<string name="sshipID">005</string>
+</resources>
