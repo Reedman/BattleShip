@@ -79,6 +79,7 @@ public final class R {
         public static final int cshipID=0x7f040003;
         public static final int dshipID=0x7f040005;
         public static final int hello=0x7f040000;
+        public static final int mStartEng=0x7f040007;
         public static final int mshipID=0x7f040004;
         public static final int sshipID=0x7f040006;
     }
