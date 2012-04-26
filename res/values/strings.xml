@@ -8,5 +8,6 @@
 	<string name="mshipID">003</string>
 	<string name="dshipID">004</string>
 	<string name="sshipID">005</string>
-	<string name="mStartEng">Start</string>
+	<string name="mStart">Start</string>
+	<string name="mSetting">Setting</string>
 </resources>

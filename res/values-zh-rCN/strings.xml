@@ -7,5 +7,6 @@
 	<string name="mshipID">003</string>
 	<string name="dshipID">004</string>
 	<string name="sshipID">005</string>
-	<string name="mStartEng">Start</string>
+	<string name="mStart">开始</string>
+	<string name="mSetting">设置</string>
 </resources>
