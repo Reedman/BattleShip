@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/BaseView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_titlepage"
-    android:orientation="vertical"
-    android:gravity="center|right" >
+    android:gravity="center|right"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_weight="1" 
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:orientation="vertical">
 
         <ImageView
@@ -19,40 +19,51 @@
             android:layout_height="wrap_content"
             android:paddingTop="40dip"
             android:layout_gravity="center"
+            android:contentDescription="@string/desc"
             android:src="@drawable/title" />
 
     </LinearLayout>
-
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom" 
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
-        <ImageButton
+        <Button
 	        android:id="@+id/btnStartGame"
-	        android:layout_weight="1"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:background="#00000000"
-	        android:src="@drawable/btn_start_selector" />
+	        android:text="@string/mStart"
+	        android:textColor="@drawable/white"
+	        android:textSize="20dip"
+	        android:textStyle="bold"
+	        android:contentDescription="@string/desc"
+	        android:background="@drawable/btn_start_selector" />
 
-		<ImageButton
+		<Button
 		    android:id="@+id/btnSetGame"
-		    android:layout_weight="1"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:background="#00000000"
-		    android:src="@drawable/btn_set_selector" />
+		    android:text="@string/mSetting"
+		   	android:textColor="@drawable/white"
+	        android:textSize="20dip"
+	        android:textStyle="bold"
+		    android:contentDescription="@string/desc"
+		    android:background="@drawable/btn_start_selector" />
 
-		<ImageButton
+		<Button
 		    android:id="@+id/btnQuitGame"
-		    android:layout_weight="1"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:background="#00000000"
-		    android:src="@drawable/btn_quit_selector" />
+		    android:text="@string/mQuit"
+		   	android:textColor="@drawable/white"
+	        android:textSize="20dip"
+	        android:textStyle="bold"
+		    android:contentDescription="@string/desc"
+		    android:background="@drawable/btn_start_selector" />
         
     </LinearLayout>
 

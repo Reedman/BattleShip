@@ -7,6 +7,9 @@ import JinUzuki.Game.BattleShip.Data.gameSetting;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 
 /**
@@ -37,8 +41,14 @@ public class TitleActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.titleview);
+        
+        Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.bg_titlepage);
+        BitmapDrawable bd = new BitmapDrawable(this.getResources(), bm);
+        
+        LinearLayout stage = (LinearLayout)this.findViewById(R.id.BaseView);
+        stage.setBackgroundDrawable(bd);
 
-        ImageButton btnStart = (ImageButton)this.findViewById(R.id.btnStartGame);
+        Button btnStart = (Button)this.findViewById(R.id.btnStartGame);
         btnStart.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -49,7 +59,7 @@ public class TitleActivity extends Activity {
         });
         
 
-        ImageButton btnSet = (ImageButton)this.findViewById(R.id.btnSetGame);
+        Button btnSet = (Button)this.findViewById(R.id.btnSetGame);
         btnSet.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -77,7 +87,7 @@ public class TitleActivity extends Activity {
         	
         });
         
-        ImageButton btnQuit = (ImageButton)this.findViewById(R.id.btnQuitGame);
+        Button btnQuit = (Button)this.findViewById(R.id.btnQuitGame);
         btnQuit.setOnClickListener(new OnClickListener(){
 
 			@Override

@@ -10,4 +10,6 @@
 	<string name="sshipID">005</string>
 	<string name="mStart">Start</string>
 	<string name="mSetting">Setting</string>
+	<string name="mQuit">Quit</string>
+	<string name="desc">contentDesc</string>
 </resources>

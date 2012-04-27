@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:state_pressed="true"
-          android:drawable="@drawable/ic_startd" /> <!-- pressed -->
+          android:drawable="@drawable/ic_gend" /> <!-- pressed -->
     <item android:state_focused="true"
-          android:drawable="@drawable/ic_startd" /> <!-- focused -->
-    <item android:drawable="@drawable/ic_start" /> <!-- default -->
+          android:drawable="@drawable/ic_gend" /> <!-- focused -->
+    <item android:drawable="@drawable/ic_gen" /> <!-- default -->
 </selector>

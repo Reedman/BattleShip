@@ -42,7 +42,7 @@ public class GameOverActivity extends Activity {
 	    LinearLayout bg = (LinearLayout)this.findViewById(R.id.gameoverView);
 	    TextView txtV = (TextView)this.findViewById(R.id.txtViewRst);
 	    
-	    bg.setBackgroundResource(R.drawable.victory);
+	   // bg.setBackgroundResource(R.drawable.victory);
 	    
 	    Intent intent = getIntent();  
 	    //String strFromCaller = intent.getStringExtra("key");  
@@ -57,12 +57,12 @@ public class GameOverActivity extends Activity {
 		if(rst){
 			Log.e("GameOverActivity", "victory");
 			txtV.setText("Victory");
-	        bg.setBackgroundResource(R.drawable.victory);
+	        //bg.setBackgroundResource(R.drawable.victory);
 		}
 		else{
 			Log.e("GameOverActivity", "lose");
 			txtV.setText("Game Over");
-			bg.setBackgroundResource(R.drawable.sinking);
+			//bg.setBackgroundResource(R.drawable.sinking);
 		}
 		
 	    

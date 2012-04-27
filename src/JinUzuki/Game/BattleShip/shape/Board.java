@@ -61,6 +61,9 @@ public class Board extends Renderable {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void recycle(){
 		mPaint = null;
 		seagull.recycle();
@@ -68,6 +71,9 @@ public class Board extends Renderable {
 		cArr = null;
 	}
 	
+	/**
+	 * @param ships
+	 */
 	public void ApplyShip(ArrayList<Ship> ships){
 		
 		ClearStatus();

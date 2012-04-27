@@ -9,4 +9,6 @@
 	<string name="sshipID">005</string>
 	<string name="mStart">开始</string>
 	<string name="mSetting">设置</string>
+	<string name="mQuit">退出</string>
+	<string name="desc">描述</string>
 </resources>

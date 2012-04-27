@@ -56,8 +56,6 @@ public class CandroidThread extends Thread {
 
 	@Override
 	public void run() {
-
-
 		/*
 		 * This is our main activity thread's loop, we go until
 		 * asked to quit.
