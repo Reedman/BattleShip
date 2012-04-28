@@ -42,11 +42,13 @@ public class BattleShipActivity extends Activity {
 	
 	private LayoutInflater mInflater;
 
-	private ViewPager myViewPager;
+	private LinearLayout surfaceContainer;
+	
+
 	
 	private List<View> mListViews;
-	private HomeStageView homeView;
-	private EnemyStageView enemyView;
+	private GameView gView;
+	//private EnemyStageView enemyView;
     private MyPagerAdapter myAdapter;
     private stage curStage;
     private boolean isObserver = false;
@@ -69,7 +71,9 @@ public class BattleShipActivity extends Activity {
     public void onResume() {  
         //Log.d("BattleShipActivity", "onResume");  
         
-		int curPage = myViewPager.getCurrentItem();
+		//int curPage = myViewPager.getCurrentItem();
+		
+		/*
 		if(curPage == 0){
 			homeView.resume();
 			//showStage(stage.enemy);
@@ -80,7 +84,7 @@ public class BattleShipActivity extends Activity {
 			enemyView.resume();
 			//showStage(stage.home);
 			//curStage = stage.home;
-		}
+		}*/
 		
 		//homeView.resume();
 		//enemyView.resume();
@@ -96,8 +100,8 @@ public class BattleShipActivity extends Activity {
     public void onPause() {  
         //Log.d("BattleShipActivity", "onPause");
         
-		homeView.pause();
-		enemyView.pause();
+    	gView.pause();
+		//enemyView.pause();
         
         super.onPause();  
     }  
@@ -144,32 +148,35 @@ public class BattleShipActivity extends Activity {
         ctx = this;
         //view01 = new CustomStageView(this);
         //setContentView(view01);
-        myAdapter = new MyPagerAdapter();
+        //myAdapter = new MyPagerAdapter();
         setContentView(R.layout.main);
         
-        myViewPager = (ViewPager) findViewById(R.id.viewPager);
+        surfaceContainer = (LinearLayout) findViewById(R.id.viewPager);
         
-        myViewPager.setAdapter(myAdapter);
+        //surfaceContainer.setAdapter(myAdapter);
 
-        mListViews = new ArrayList<View>();
+        //mListViews = new ArrayList<View>();
         
   	    BattleShip myApp = (BattleShip) getApplicationContext();
 	    gameSetting gs =  myApp.getGameSetting();
 	    
-        homeView = new HomeStageView(this);
-        homeView.setGameSetting(gs);
-        homeView.setDrawingCacheEnabled(true);
-        homeView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        mListViews.add(homeView);
-        enemyView = new EnemyStageView(this);
-        enemyView.setGameSetting(gs);
-        enemyView.setDrawingCacheEnabled(true);
-        enemyView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        mListViews.add(enemyView);
+	    gView = new GameView(this);
+	    gView.setGameSetting(gs);
+	    gView.setDrawingCacheEnabled(true);
+	    gView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        surfaceContainer.addView(gView);
+        
+        
+        //mListViews.add(homeView);
+        //enemyView = new EnemyStageView(this);
+        //enemyView.setGameSetting(gs);
+        //enemyView.setDrawingCacheEnabled(true);
+        //enemyView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        //mListViews.add(enemyView);
         
         curStage = stage.home;
         
-        homeView.setOnTurnEndListener(new TurnEndListener(){
+        gView.setOnTurnEndListener(new TurnEndListener(){
 
 			@Override
 			public void onTurnEnd() {
@@ -177,7 +184,7 @@ public class BattleShipActivity extends Activity {
 			}
         });
         
-        homeView.setOnTurnStartListener(new TurnStartListener(){
+        gView.setOnTurnStartListener(new TurnStartListener(){
 
 			@Override
 			public void onTurnStart() {
@@ -186,6 +193,7 @@ public class BattleShipActivity extends Activity {
 			}
         });
         
+        /*
         enemyView.setOnTurnEndListener(new TurnEndListener(){
 
 			@Override
@@ -195,8 +203,9 @@ public class BattleShipActivity extends Activity {
 				//homeView.startTurn();
 				
 			}
-        });
+        });*/
         
+        /*
         myViewPager.setOnTouchListener(new OnTouchListener(){
 
 			@Override
@@ -268,14 +277,14 @@ public class BattleShipActivity extends Activity {
 			}
         	
         });
-        
+        */
         
         ImageButton rotBtn = (ImageButton)this.findViewById(R.id.rotateship);
         rotBtn.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				homeView.rotateShip();
+				gView.rotateShip();
 			}}
         );  
         
@@ -289,9 +298,10 @@ public class BattleShipActivity extends Activity {
 				//if(!isObserver) return;
 				//if(bLock) return;
 				//if(homeView.step != turnStep.turnOver) return;
-				if(homeView.step != turnStep.turnWait) return;
-				homeView.step = turnStep.turnOver;
+				if(gView.step != turnStep.turnWait) return;
+				gView.step = turnStep.turnOver;
 				
+				/*
 				int curPage = myViewPager.getCurrentItem();
 				if(curPage == 0){
 					showStage(stage.enemy);
@@ -301,7 +311,7 @@ public class BattleShipActivity extends Activity {
 				{
 					//showStage(stage.home);
 					//curStage = stage.home;
-				}
+				}*/
 				
 			}}
         );
@@ -313,12 +323,15 @@ public class BattleShipActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				//if(bLock) return;
+				
+				/*
 				if(enemyView.step != turnStep.turnWait) return;
 				
 				homeView.step = turnStep.turnWait;
 				isObserver = true;
 				//isObserver = true;
-				
+				*/
+				/*
 				int curPage = myViewPager.getCurrentItem();
 				if(curPage == 0){
 					//showStage(stage.enemy);
@@ -328,7 +341,7 @@ public class BattleShipActivity extends Activity {
 				{
 					showStage(stage.home);
 					curStage = stage.home;
-				}
+				}*/
 			}
         	
         });
@@ -338,7 +351,12 @@ public class BattleShipActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if(homeView.StartMission()){
+				gView.switchStage();
+				
+				/*
+				if(gView.StartMission()){
+					
+					
 					ImageButton ready = (ImageButton)((Activity)ctx).findViewById(R.id.onReady);
 					ImageButton random = (ImageButton)((Activity)ctx).findViewById(R.id.onRandom);
 					ImageButton rot = (ImageButton)((Activity)ctx).findViewById(R.id.rotateship);
@@ -349,7 +367,9 @@ public class BattleShipActivity extends Activity {
 				
 					prevBtn.setVisibility(View.VISIBLE);
 					nextBtn.setVisibility(View.VISIBLE);
+					
 				}
+				*/
 				
 			}
         });
@@ -359,7 +379,7 @@ public class BattleShipActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				homeView.randomShips();
+				gView.randomShips();
 			}
         });
         
@@ -399,31 +419,32 @@ public class BattleShipActivity extends Activity {
 
     final Runnable mHomeStart = new Runnable() {
          public void run() {
-        	 homeView.resume();
-        	 homeView.startTurn();
+        	 gView.resume();
+        	 gView.startTurn();
          }
     };
     
     final Runnable mEnemyStart = new Runnable() {
         public void run() {
-        	enemyView.resume();
-        	enemyView.startTurn();
+        	//enemyView.resume();
+        	//enemyView.startTurn();
         }
     };
     
     public void showStage(stage st){
-		homeView.pause();
-		enemyView.pause();
+    	gView.pause();
+		//enemyView.pause();
 		
+		/*
     	if(st == stage.enemy)	{
     		myViewPager.setCurrentItem(1, true);
     	}
     	else
     	{
     		myViewPager.setCurrentItem(0, true);
-    	}
+    	}*/
     }
-    
+
     @Override 
     public boolean onKeyDown(int keyCode, KeyEvent event) { 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { 
@@ -431,17 +452,17 @@ public class BattleShipActivity extends Activity {
             return false; 
         }
         else if(keyCode==KeyEvent.KEYCODE_VOLUME_DOWN) {
-        	float v = homeView.sfx.getVolume();
-        	homeView.sfx.setVolumeOf(v -0.1f );
-        	v = enemyView.sfx.getVolume();
-        	enemyView.sfx.setVolumeOf(v -0.1f );
+        	float v = gView.sfx.getVolume();
+        	gView.sfx.setVolumeOf(v -0.1f );
+        	//v = enemyView.sfx.getVolume();
+        	//enemyView.sfx.setVolumeOf(v -0.1f );
         	
             return true;
         }else if(keyCode==KeyEvent.KEYCODE_VOLUME_UP){
-        	float v = homeView.sfx.getVolume();
-        	homeView.sfx.setVolumeOf(v + 0.1f );
-        	v = enemyView.sfx.getVolume();
-        	enemyView.sfx.setVolumeOf(v + 0.1f );
+        	float v = gView.sfx.getVolume();
+        	gView.sfx.setVolumeOf(v + 0.1f );
+        	//v = enemyView.sfx.getVolume();
+        	//enemyView.sfx.setVolumeOf(v + 0.1f );
         	
             return true;
         }
@@ -466,8 +487,8 @@ public class BattleShipActivity extends Activity {
                 		//homeView.stopGame();
                 		//enemyView.stopGame();
                         
-                		homeView.stopGame();
-                		enemyView.stopGame();
+                        gView.stopGame();
+                		//enemyView.stopGame();
                 		
                         //ctx.startActivity(new Intent(ctx, TitleActivity.class));
                         //android.os.Process.killProcess(android.os.Process.myPid());
@@ -496,8 +517,8 @@ public class BattleShipActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) { 
                         dialog.dismiss(); 
                         //((BattleShipActivity)ctx).
-                		homeView.stopGame();
-                		enemyView.stopGame();
+                        gView.stopGame();
+                		//enemyView.stopGame();
                 		
                         //android.os.Process.killProcess(android.os.Process.myPid());
                         finish();

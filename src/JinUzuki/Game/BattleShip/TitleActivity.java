@@ -42,7 +42,11 @@ public class TitleActivity extends Activity {
 
         setContentView(R.layout.titleview);
         
+		BitmapFactory.Options DEFAULT_BITMAP_OPTIONS = new BitmapFactory.Options();
+		DEFAULT_BITMAP_OPTIONS.inPreferredConfig = Bitmap.Config.RGB_565;
+		
         Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.bg_titlepage);
+        
         BitmapDrawable bd = new BitmapDrawable(this.getResources(), bm);
         
         LinearLayout stage = (LinearLayout)this.findViewById(R.id.BaseView);

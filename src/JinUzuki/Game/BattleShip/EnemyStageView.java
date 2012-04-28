@@ -31,14 +31,25 @@ import at.bartinger.candroid.texture.TextureManager;
  *
  */
 public class EnemyStageView extends StageView {
-
+	
 	/**
 	 * @param context
 	 */
 	public EnemyStageView(Context context) {
 		super(context,"Enemy");
 		
-		InitRenderer();
+		new Thread(){
+			public void run(){
+				InitRenderer();
+				//mCanvasThread = new StageThread(EnemyStageView.this, hRenderer, "Enemy");
+				mCanvasThread.start();
+				mCanvasThread.surfaceCreated();
+			}
+		}.start();
+		
+		
+
+		//mCanvasThread = new StageThread(this, spriteRenderer, "Enemy");
 	}
 
 	/**
@@ -68,6 +79,7 @@ public class EnemyStageView extends StageView {
        	//mbg = new MultibleBackground(bgs);
        	//spriteRenderer.setBackground(mbg);
 		
+		/*
 		Texture bgTex = new Texture("graphics/bg_stage.png");
 		atlas.addTexture(bgTex);
 		TextureManager.load(ctx, atlas);
@@ -75,7 +87,7 @@ public class EnemyStageView extends StageView {
 		bgs[0] = new FixedBackground(bgTex,STAGE_WIDTH,STAGE_HEIGHT);
 		
 	    mbg = new MultibleBackground(bgs);
-	    spriteRenderer.setBackground(mbg);
+	    //spriteRenderer.setBackground(mbg);
 		
 		this.explosionAni.setOnAnimePlayedListener(new AnimationPlayedListener(){
 
@@ -100,17 +112,20 @@ public class EnemyStageView extends StageView {
 				//endTurn();
 			}
 		});
+		*/
 		
 		//bsSprite.setVisibility(false);
 		//RjSprite.setVisibility(false);
 		//klSprite.setVisibility(false);
 		
+		/*
 		for(Ship ship:fleet){
 			ship.setVisibility(false);
 		}
 		
 		Utility.prepareFleet(fleet);
 		chessBroad.ApplyShip(fleet);
+		*/
 	}
 	
 	@Override
@@ -122,29 +137,32 @@ public class EnemyStageView extends StageView {
 		STAGE_HEIGHT = myCav.getHeight();
 		//Log.d("StageSize:",Integer.toString(STAGE_WIDTH) + "," + Integer.toString(STAGE_HEIGHT));
 		
+		/*
 		FixedBackground bg = (FixedBackground)bgs[0]; //= new FixedBackground(bgTex,STAGE_WIDTH,STAGE_HEIGHT);
 		bg.Scale(STAGE_WIDTH, STAGE_HEIGHT);
 		
-		holder.unlockCanvasAndPost(myCav);
+		holder.unlockCanvasAndPost(myCav);*/
 	}
 	
 	public void movingCursor(int x,int y){
-		aim.SetTarget(x, y);
-		Position snapPos = aim.Snaping(x, y, cellSize);
+		//aim.SetTarget(x, y);
+		//Position snapPos = aim.Snaping(x, y, cellSize);
+		/*
 		if(curPos.x == snapPos.x && curPos.y == snapPos.y && this.chessBroad.CheckStatus(curPos)){
 			if(Attack(snapPos)){
 				this.step = turnStep.turnWait;
 			}
-		}
+		}*/
 	
 		//Log.e("movingCursor","movingCursor");
 		
-		curPos.x = snapPos.x;
-		curPos.y = snapPos.y;
+		//curPos.x = snapPos.x;
+		//curPos.y = snapPos.y;
 		
-		moveCursor = true;
+		//moveCursor = true;
 	}
 	
+	/*
 	@Override
 	public void startTurn(){
 		//Log.d("turn", "enemyTurnStart");
@@ -159,11 +177,11 @@ public class EnemyStageView extends StageView {
 		super.endTurn();
 	}
 	
-	
+	*/
 	@Override
 	public void onUpdate(){
 		
-		aim.update();
+		//aim.update();
 
 	}
 	
@@ -179,10 +197,12 @@ public class EnemyStageView extends StageView {
 	
 	@Override	
 	public void onTouchUp(int touchX, int touchY, int pressure){
+		/*
 		if(step == turnStep.turnWait){
 			movingCursor(touchX,touchY);
 		}
 		super.onTouchUp(touchX, touchY, pressure);
+		*/
 	}
-
+	
 }

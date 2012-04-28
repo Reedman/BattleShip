@@ -37,7 +37,7 @@ public class TextureManager {
 	
 	public static void load(Context context, TextureAtlas atlas){
 		BitmapFactory.Options DEFAULT_BITMAP_OPTIONS = new BitmapFactory.Options();
-		DEFAULT_BITMAP_OPTIONS.inPreferredConfig = Bitmap.Config.ARGB_8888;
+		DEFAULT_BITMAP_OPTIONS.inPreferredConfig = Bitmap.Config.RGB_565;
 		
 		Bitmap bitmap = null;
 		InputStream is = null;

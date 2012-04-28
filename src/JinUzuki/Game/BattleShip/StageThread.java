@@ -18,8 +18,10 @@ public class StageThread extends Thread {
 	private boolean mDone;
 	private boolean mCache;
 	private boolean mPause;
+	private boolean mHome;
 
-	private Renderer mRenderer;
+	private Renderer homeRenderer;
+	private Renderer anotherRenderer;
 	private Runnable mEvent;
 	private SurfaceHolder mSurfaceHolder =null;
 	private StageView view;
@@ -30,13 +32,15 @@ public class StageThread extends Thread {
 	/**
 	 * 
 	 */
-	public StageThread(StageView view, Renderer renderer, String name) {
+	public StageThread(StageView view, Renderer hrd,Renderer ard, String name) {
 		super();
 		mDone = false;
 		mCache = false;
 		mPause = false;
+		mHome = true;
 
-		mRenderer = renderer;
+		homeRenderer = hrd;
+		anotherRenderer = ard;
 		this.view = view;
 		mSurfaceHolder = view.getHolder();
 		setName(name);
@@ -90,7 +94,12 @@ public class StageThread extends Thread {
 				if (canvas != null) {
 					view.onUpdate();
 					view.onStartDrawing(canvas);
-					mRenderer.drawFrame(canvas);
+					
+					if(mHome)
+						homeRenderer.drawFrame(canvas);
+					else
+						anotherRenderer.drawFrame(canvas);
+					
 					view.onStopDrawing(canvas);
 					mSurfaceHolder.unlockCanvasAndPost(canvas);
 				}else{
@@ -121,6 +130,12 @@ public class StageThread extends Thread {
 	public void pause(){
 		synchronized(this) {
 			mPause = true;
+		}
+	}
+	
+	public void switchRenderer(){
+		synchronized(this) {
+			mHome = !mHome;
 		}
 	}
 

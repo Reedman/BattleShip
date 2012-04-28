@@ -10,7 +10,7 @@ import at.bartinger.candroid.renderable.Renderable;
 
 /**
  * @author v-alajin
- *
+ * the Grid frame 10*10
  */
 public class Grid extends Renderable {
 	
