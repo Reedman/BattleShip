@@ -12,4 +12,6 @@
 	<string name="mSetting">Setting</string>
 	<string name="mQuit">Quit</string>
 	<string name="desc">contentDesc</string>
+	<string name="mRandom">Random</string>
+	<string name="mReady">Ready</string>
 </resources>

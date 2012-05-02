@@ -180,7 +180,9 @@ public class BattleShipActivity extends Activity {
 
 			@Override
 			public void onTurnEnd() {
-				showStage(stage.enemy);
+				//showStage(stage.enemy);
+				gView.switchStage();
+				gView.startTurn();
 			}
         });
         
@@ -351,9 +353,9 @@ public class BattleShipActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				gView.switchStage();
+				//gView.switchStage();
 				
-				/*
+				
 				if(gView.StartMission()){
 					
 					
@@ -369,8 +371,6 @@ public class BattleShipActivity extends Activity {
 					nextBtn.setVisibility(View.VISIBLE);
 					
 				}
-				*/
-				
 			}
         });
         
@@ -432,7 +432,7 @@ public class BattleShipActivity extends Activity {
     };
     
     public void showStage(stage st){
-    	gView.pause();
+    	//gView.pause();
 		//enemyView.pause();
 		
 		/*

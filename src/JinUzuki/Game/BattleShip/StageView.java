@@ -65,8 +65,6 @@ public class StageView extends SurfaceView implements SurfaceHolder.Callback {
 	protected 	Vibrator 		vibrator	= null;
 	protected 	TextureAtlas 	atlas 		= null;	
 
-
-	
 	//sound
 	public	  SFXManager sfx;
 	protected boolean    bPlaySound = true;
@@ -133,60 +131,6 @@ public class StageView extends SurfaceView implements SurfaceHolder.Callback {
 		this.bVibrate   = gs.bVibrate;
 	}
 	
-	public boolean Attack(Position target){
-		/*
-		if(!this.chessBroad.HasShip(target)){
-			//play water splash
-			this.chessBroad.SetStatus(target, false);
-			this.splashAni.x = aim.targetX - splashAni.width/2;
-			this.splashAni.y = aim.targetY - splashAni.height/2;
-			splashAni.start();
-			if(bPlaySound) sfx.play("miss");//sfx.play("miss");
-			
-			return false;
-		}
-		else// if(this.chessBroad.HasShip(target) && this.chessBroad.CheckStatus(target)!=1  )
-		{
-			//ai.clearMark();
-			if(ai!= null) ai.markHit(target.x, target.y);
-			
-			this.chessBroad.SetStatus(target, false);
-			Ship ship = (Ship)spriteRenderer.getRenderable(this.chessBroad.CheckShipID(target));
-			if(ship.Damage() && this.ai != null){
-				ArrayList<Position> nPos = ship.getBuffer();
-				for(Position pos:nPos){
-					if(!chessBroad.HasShip(pos))
-						chessBroad.SetStatus(pos, false); 
-				}
-				ai.removeCandidate(ship);
-			}
-			
-			//play bomb
-			this.explosionAni.x = aim.targetX - explosionAni.width/2;
-			this.explosionAni.y = aim.targetY - explosionAni.height/2;
-			explosionAni.start();
-			if(bPlaySound) sfx.play("hit");
-			
-			//add fire Sprite
-			Sprite fireSprite = new Sprite(txFire,aim.targetX,aim.targetY);
-			
-			float sw = (float) (((float) cellSize) / (float)fireSprite.width*0.8);
-			float sh = (float) (((float) cellSize) / (float)fireSprite.height*0.8);
-			
-			fireSprite.scale(sw, sh);
-			
-			fireSprite.x = aim.targetX - fireSprite.width/2;
-			fireSprite.y = aim.targetY - fireSprite.height/2;
-			this.spriteRenderer.addRenderableAt(fireSprite, this.spriteRenderer.getRenderableSize()-3);
-			
-			if(bVibrate)
-				vibrator.vibrate(100);
-			
-			return true;
-		}
-		*/
-		return true;
-	}
 	
 	public void setRendererAndStart(Renderer renderer,String name) {
 		if(mCanvasThread != null){

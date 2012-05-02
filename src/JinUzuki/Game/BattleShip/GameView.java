@@ -29,7 +29,9 @@ import android.widget.Toast;
 import at.bartinger.candroid.background.Background;
 import at.bartinger.candroid.background.FixedBackground;
 import at.bartinger.candroid.background.MultibleBackground;
+import at.bartinger.candroid.renderable.Sprite;
 import at.bartinger.candroid.renderable.TileAnimation;
+import at.bartinger.candroid.renderer.SurfaceRenderer;
 import at.bartinger.candroid.texture.Texture;
 import at.bartinger.candroid.texture.TextureManager;
 
@@ -38,13 +40,8 @@ public class GameView extends StageView {
 	//renderer
 	protected 	TileAnimation 	explosionAni = null;
 	protected   TileAnimation	splashAni	= null;
-	protected 	Board 			homeBroad	= null;
-	protected   Board			anotherBroad = null;
-//	protected 	Ship			bsSprite 	= null;
-//	protected	Ship 			RjSprite 	= null;
-//	protected	Ship 			klSprite 	= null;
-//	protected	Ship 			dsSprite 	= null;
-//	protected	Ship 			ds2Sprite 	= null;
+	protected 	Board 			homeBoard	= null;
+	protected   Board			anotherBoard = null;
 	protected   ArrayList<Ship> homefleet		= null;
 	protected   ArrayList<Ship> anotherfleet	= null;
 	protected 	Texture 		txFire 		= null;
@@ -55,13 +52,13 @@ public class GameView extends StageView {
 	protected TurnStartListener _onTurnStart;
 	protected TurnEndListener _onTurnEnd;
 	
-	protected BaseAI ai      = null;
+	protected GenericAI ai      = null;
 	
 	//status
 	protected  	Position  		curPos 		= null;
 	public 		String 			action 		= "";
 	public 		turnStep		step 		= null;//prepare,ready,turn start,turn over
-	protected	String			instance		= "";
+	protected	stage			curStage	= stage.home;
 	
 	public		Ship	selSprite = null;
 	
@@ -86,12 +83,10 @@ public class GameView extends StageView {
 
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public GameView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void InitRenderer(){
@@ -114,72 +109,88 @@ public class GameView extends StageView {
 		splashAni = new TileAnimation(splashTex,2,2,3,3,40);
 		splashAni.stop();
 		
+		
+		//////////////////////////battleship/////////////////////////
 		int shipSize = 4;
 		Texture txBS = new Texture("graphics/battleship.png"); 
 		atlas.addTexture(txBS);
 		
 		TextureManager.load(ctx, atlas);
 		Ship bsSprite = new Ship(txBS,cellSize*3,0,shipSize,cellSize,shipdir.Horizon,ctx.getString(R.string.bshipID));
-			
+		Ship anotherbsSprite = new Ship(txBS,cellSize*3,0,shipSize,cellSize,shipdir.Horizon,ctx.getString(R.string.bshipID));			
 		float sw = ((float) cellSize*shipSize) / (float)bsSprite.width;
 		float sh = ((float) cellSize) / (float)bsSprite.height;
 		
 		bsSprite.scale(sw, sh);
+		anotherbsSprite.scale(sw, sh);
 		homeRenderer.addRenderable(bsSprite);
+		anotherRenderer.addRenderable(anotherbsSprite);
 		
+		
+		////////////////////////////carrier/////////////////////////
 		shipSize = 5;
 		Texture txRj = new Texture("graphics/ryujo.png");
 		atlas.addTexture(txRj);
 		TextureManager.load(ctx, atlas);
 		Ship RjSprite = new Ship(txRj,0,0,shipSize,cellSize,shipdir.Vertical,ctx.getString(R.string.cshipID));
-
+		Ship anotherRjSprite = new Ship(txRj,0,0,shipSize,cellSize,shipdir.Vertical,ctx.getString(R.string.cshipID));
 		sw = ((float) cellSize) / (float)RjSprite.width;
 		sh = ((float) cellSize*shipSize) / (float)RjSprite.height;
 
 		RjSprite.scale(sw, sh);
+		anotherRjSprite.scale(sw, sh);
 		homeRenderer.addRenderable(RjSprite);
+		anotherRenderer.addRenderable(anotherRjSprite);
 		
 		
-		
+		////////////////////////submarine////////////////////////
 		shipSize = 2;
 		Texture txSub = new Texture("graphics/kilo.png");
 		atlas.addTexture(txSub);
 		TextureManager.load(ctx, atlas);
 		
 		Ship klSprite = new Ship(txSub,cellSize*3,cellSize*3,shipSize,cellSize,shipdir.Vertical,ctx.getString(R.string.mshipID));
-		
+		Ship anotherklSprite = new Ship(txSub,cellSize*3,cellSize*3,shipSize,cellSize,shipdir.Vertical,ctx.getString(R.string.mshipID));
 		sw = ((float) cellSize) / (float)klSprite.width;
 		sh = ((float) cellSize*shipSize) / (float)klSprite.height;
 		
 		klSprite.scale(sw, sh);
+		anotherklSprite.scale(sw, sh);
 		homeRenderer.addRenderable(klSprite);
+		anotherRenderer.addRenderable(anotherklSprite);
 		
+		
+		////////////////////////destroyer///////////////////////////
 		shipSize = 3;
 		Texture txDst = new Texture("graphics/destroyer1.png");
 		atlas.addTexture(txDst);
 		TextureManager.load(ctx, atlas);
 		
 		Ship dsSprite = new Ship(txDst,cellSize*6,cellSize*3,shipSize,cellSize,shipdir.Vertical,ctx.getString(R.string.dshipID));
-		
+		Ship anotherdsSprite = new Ship(txDst,cellSize*6,cellSize*3,shipSize,cellSize,shipdir.Vertical,ctx.getString(R.string.dshipID));		
 		sw = ((float) cellSize) / (float)dsSprite.width;
 		sh = ((float) cellSize*shipSize) / (float)dsSprite.height;
 		
 		dsSprite.scale(sw, sh);
+		anotherdsSprite.scale(sw, sh);
 		homeRenderer.addRenderable(dsSprite);
-		
+		anotherRenderer.addRenderable(anotherdsSprite);
+
+		/////////////////////////destroyer2///////////////////////////
 		shipSize = 3;
 		Texture txDst2 = new Texture("graphics/destroyer2.png");
 		atlas.addTexture(txDst2);
 		TextureManager.load(ctx, atlas);
 		
 		Ship ds2Sprite = new Ship(txDst2,cellSize*7,cellSize*3,shipSize,cellSize,shipdir.Vertical,ctx.getString(R.string.sshipID));
-		
+		Ship anotherds2Sprite = new Ship(txDst2,cellSize*7,cellSize*3,shipSize,cellSize,shipdir.Vertical,ctx.getString(R.string.sshipID));		
 		sw = ((float) cellSize) / (float)ds2Sprite.width;
 		sh = ((float) cellSize*shipSize) / (float)ds2Sprite.height;
 		
 		ds2Sprite.scale(sw, sh);
+		anotherds2Sprite.scale(sw, sh);
 		homeRenderer.addRenderable(ds2Sprite);
-		
+		anotherRenderer.addRenderable(anotherds2Sprite);
 		txFire = new Texture("graphics/fire.png");
 		atlas.addTexture(txFire);
 		TextureManager.load(ctx, atlas);
@@ -188,14 +199,14 @@ public class GameView extends StageView {
 		Texture txSG = new Texture("graphics/seagull.png");
 		atlas.addTexture(txSG);
 		TextureManager.load(ctx, atlas);
-		homeBroad = new Board(txSG,cellSize,blockCount,blockCount,stage.home);
-		homeRenderer.addRenderable(homeBroad);
+		homeBoard = new Board(txSG,cellSize,blockCount,blockCount,stage.home);
+		homeRenderer.addRenderable(homeBoard);
 		
 		Texture txCld = new Texture("graphics/cloud3.png");
 		atlas.addTexture(txCld);
 		TextureManager.load(ctx, atlas);
-		anotherBroad = new Board(txCld,cellSize,blockCount,blockCount,stage.enemy);
-		anotherRenderer.addRenderable(anotherBroad);
+		anotherBoard = new Board(txCld,cellSize,blockCount,blockCount,stage.enemy);
+		anotherRenderer.addRenderable(anotherBoard);
 		
 		homefleet = new ArrayList<Ship>();
 		homefleet.add(bsSprite);
@@ -203,6 +214,13 @@ public class GameView extends StageView {
 		homefleet.add(klSprite);
 		homefleet.add(dsSprite);
 		homefleet.add(ds2Sprite);
+		
+		anotherfleet = new ArrayList<Ship>();
+		anotherfleet.add(anotherbsSprite);
+		anotherfleet.add(anotherRjSprite);
+		anotherfleet.add(anotherklSprite);
+		anotherfleet.add(anotherdsSprite);
+		anotherfleet.add(anotherds2Sprite);
 		
 		homeRenderer.addRenderable(this.explosionAni);
 		homeRenderer.addRenderable(this.splashAni);
@@ -212,6 +230,9 @@ public class GameView extends StageView {
 		
 		homeAim = new AimCursor(4*cellSize - cellSize/2,4*cellSize - cellSize/2,cellSize);
 		homeRenderer.addRenderable(homeAim);
+		
+		anotherAim = new AimCursor(4*cellSize - cellSize/2,4*cellSize - cellSize/2,cellSize);
+		anotherRenderer.addRenderable(anotherAim);
 		
 		Texture bgTex = new Texture("graphics/bg_stage.png");
 		atlas.addTexture(bgTex);
@@ -255,14 +276,14 @@ public class GameView extends StageView {
 		});
 		                                               
 		homeAim.SetVisibility(false);
-		homeBroad.SetVisibility(false);
-		anotherBroad.SetVisibility(true);
+		homeBoard.SetVisibility(false);
+		anotherBoard.SetVisibility(true);
 		
 		Utility.prepareFleet(homefleet);
-		homeBroad.ApplyShip(homefleet);
+		homeBoard.ApplyShip(homefleet);
 		
-		//Utility.prepareFleet(homefleet);
-		//homeBroad.ApplyShip(homefleet);
+		Utility.prepareFleet(anotherfleet);
+		anotherBoard.ApplyShip(anotherfleet);
 	}
 	
 	public void movingCursor(Position tgt){
@@ -279,6 +300,8 @@ public class GameView extends StageView {
 	
 	public void switchStage(){
 		mCanvasThread.switchRenderer();
+		if(curStage == stage.enemy)	curStage = stage.home;
+		else if(curStage == stage.home)	curStage = stage.enemy;
 	}
 	
 	public void sleep(long time){
@@ -313,56 +336,18 @@ public class GameView extends StageView {
     final Runnable mAttackEnd = new Runnable(){
     	public void run() {
     		//all ship destoryed , end game
-    		
-    		if(Utility.allDestoryed(homefleet)){
-    			//mCanvasThread.requestExitAndWait();
-    			//((Activity)ctx).finish();
-    			
-		        //Intent intent = new Intent();  
-		        //intent.setClass(ctx,GameOverActivity.class); 
-		        
-		        
-		        //Bundle bundle = new Bundle();
-
-
-    			if(instance == "home"){
+    		if(curStage == stage.home){
+    			if(Utility.allDestoryed(homefleet)){
     				((BattleShipActivity)ctx).dialog(false);
-    				//intent.putExtra("vic", false);
-    				//intent.putExtra("result",  "lose");
-    		        //bundle.putString("result", "victory");
     			}
-    			else{
+    		}
+    		else if(curStage == stage.enemy){
+    			if(Utility.allDestoryed(anotherfleet)){
     				((BattleShipActivity)ctx).dialog(true);
-    				//dialog(true);
-    				//intent.putExtra("vic", true);
-    				//intent.putExtra("result",  "victory");
-    				//bundle.putString("result", "lose");
     			}
-		        //intent.putExtras(bundle);  
-		        //ctx.startActivity(intent);  
-		        
-		       
-		        //ctx.startActivity(intent);
-    			//ctx.startActivity(new Intent(ctx, GameOverActivity.class));
-    			//android.os.Process.killProcess(android.os.Process.myPid());
-		        
-		        //stopGame();
-    			
-    			
-    			
-    			
-    			//((Activity)ctx).finish();
-    			//System.exit(0);
-    			
-    			//finish();
-    			//Log.e("endturn", "all ship destoryed , end game");
     		}
     	}
     };
-    
-
-    
-    
     
     final Runnable mStartTurn = new Runnable() {
     	
@@ -388,11 +373,13 @@ public class GameView extends StageView {
 	@Override	
 	public void onTouchMove(int touchX, int touchY, int pressure){
 		
-		if(step == turnStep.inPrepare){
-			if(selSprite != null){
-				selSprite.x = touchX - selSprite.anchorX;
-				selSprite.y = touchY - selSprite.anchorY;
-				//Log.d("k", "onTouch");
+		if(curStage == stage.home){
+			if(step == turnStep.inPrepare){
+				if(selSprite != null){
+					selSprite.x = touchX - selSprite.anchorX;
+					selSprite.y = touchY - selSprite.anchorY;
+					//Log.d("k", "onTouch");
+				}
 			}
 		}
 		
@@ -402,14 +389,22 @@ public class GameView extends StageView {
 	@Override	
 	public void onTouchUp(int touchX, int touchY, int pressure){
 		
-		if(step == turnStep.inPrepare){
-			if(selSprite != null){
-				//snapShip(touchX - (int)selSprite.anchorX,touchY - (int)selSprite.anchorY,selSprite);
-				selSprite.Snaping(touchX - (int)selSprite.anchorX, touchY - (int)selSprite.anchorY);
-				selSprite.setAnchor(0,0);
-				//selSprite = null;
+		if(curStage == stage.home){
+			if(step == turnStep.inPrepare){
+				if(selSprite != null){
+					//snapShip(touchX - (int)selSprite.anchorX,touchY - (int)selSprite.anchorY,selSprite);
+					selSprite.Snaping(touchX - (int)selSprite.anchorX, touchY - (int)selSprite.anchorY);
+					selSprite.setAnchor(0,0);
+					//selSprite = null;
+				}
 			}
 		}
+		else if(curStage == stage.enemy){
+			if(step == turnStep.turnWait){
+				movingCursor(touchX,touchY);
+			}
+		}
+		
 		
 		super.onTouchUp(touchX, touchY, pressure);
 	}
@@ -431,14 +426,98 @@ public class GameView extends StageView {
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		super.surfaceDestroyed(holder);
-		
-		//ai.recycle();
-		
 	}
 	
 	public void rotateShip(){
 		if(selSprite !=  null)
 			selSprite.rotate();
+	}
+	
+	public boolean Attack(Position target){
+
+		Board board = null;
+		AimCursor aim = null;
+		SurfaceRenderer renderer = null;
+		if(this.curStage == stage.home){
+			board = homeBoard;
+			aim = homeAim;
+			renderer = homeRenderer;
+		}
+		else if(this.curStage == stage.enemy){
+			board = anotherBoard;
+			aim = anotherAim;
+			renderer = anotherRenderer;
+		}
+		
+		if(!board.HasShip(target)){
+			//play water splash
+			board.SetStatus(target, false);
+			this.splashAni.x = aim.targetX - splashAni.width/2;
+			this.splashAni.y = aim.targetY - splashAni.height/2;
+			splashAni.start();
+			if(bPlaySound) sfx.play("miss");//sfx.play("miss");
+			
+			return false;
+		}
+		else// if(this.chessBroad.HasShip(target) && this.chessBroad.CheckStatus(target)!=1  )
+		{
+			//ai.clearMark();
+			if(curStage == stage.home) ai.markHit(target.x, target.y);
+			
+			board.SetStatus(target, false);
+			Ship ship = (Ship)renderer.getRenderable(board.CheckShipID(target));
+			if(ship.Damage()){
+				if(curStage == stage.home) ai.removeCandidate(ship);
+				
+				ArrayList<Position> nPos = ship.getBuffer();
+				
+				for(Position pos:nPos){
+					if(!board.HasShip(pos))
+						board.SetStatus(pos, false); 
+				}
+			}
+			
+
+			
+			//play bomb
+			this.explosionAni.x = aim.targetX - explosionAni.width/2;
+			this.explosionAni.y = aim.targetY - explosionAni.height/2;
+			explosionAni.start();
+			if(bPlaySound) sfx.play("hit");
+			
+			//add fire Sprite
+			Sprite fireSprite = new Sprite(txFire,aim.targetX,aim.targetY);
+			
+			float sw = (float) (((float) cellSize) / (float)fireSprite.width*0.8);
+			float sh = (float) (((float) cellSize) / (float)fireSprite.height*0.8);
+			
+			fireSprite.scale(sw, sh);
+			
+			fireSprite.x = aim.targetX - fireSprite.width/2;
+			fireSprite.y = aim.targetY - fireSprite.height/2;
+			renderer.addRenderableAt(fireSprite, renderer.getRenderableSize()-3);
+			
+			if(bVibrate)
+				vibrator.vibrate(100);
+			
+			return true;
+		}
+	}
+	
+	public void movingCursor(int x,int y){
+		anotherAim.SetTarget(x, y);
+		Position snapPos = anotherAim.Snaping(x, y, cellSize);
+		
+		if(curPos.x == snapPos.x && curPos.y == snapPos.y && this.anotherBoard.CheckStatus(curPos)){
+			if(Attack(snapPos)){
+				this.step = turnStep.turnWait;
+			}
+		}
+		//Log.e("movingCursor","movingCursor");
+		
+		curPos.x = snapPos.x;
+		curPos.y = snapPos.y;
+		moveCursor = true;
 	}
 	
 	public boolean StartMission(){
@@ -448,7 +527,7 @@ public class GameView extends StageView {
 			return false;
 		}
 		else{
-			homeBroad.ApplyShip(homefleet);
+			homeBoard.ApplyShip(homefleet);
 			this.endTurn();
 		}
 		
@@ -458,15 +537,19 @@ public class GameView extends StageView {
 	public void startTurn(){
 
 		step = turnStep.turnStart;
-		this.homeAim.SetVisibility(true);
-		step = turnStep.turnReady;
+		if(curStage == stage.home){
+			this.homeAim.SetVisibility(true);
+			ai.updateBattleField(this.homeBoard,this.homefleet);
+			Position tgt = ai.askForTarget();
+			this.movingCursor(tgt);
+		}
+		else if(curStage == stage.enemy){
+			this.anotherAim.SetVisibility(true);
+			this.step = turnStep.turnWait;
+		}
 		//Log.d("turn", "homeTurnStart");
 		
-		ai.updateBattleField(this.homeBroad,this.homefleet);
-		Position tgt = ai.askForTarget();
-		
-		this.movingCursor(tgt);
-		//this.Attack(tgt);
+		//step = turnStep.turnReady;
 		
 		if(this._onTurnStart != null){
 			this._onTurnStart.onTurnStart();
@@ -476,13 +559,18 @@ public class GameView extends StageView {
 	public void endTurn(){
 		//sleep(1000);
 		
-		this.homeAim.SetVisibility(false);
+		if(curStage == stage.home){
+			this.homeAim.SetVisibility(false);
+		}
+		else if(curStage == stage.enemy){
+			this.anotherAim.SetVisibility(false);
+		}
 		
 		if(this._onTurnEnd != null){
 			this._onTurnEnd.onTurnEnd();
 		}
 		
-		step = turnStep.turnOver;
+		//step = turnStep.turnOver;
 	}
 	
 	public void setOnTurnStartListener(TurnStartListener _onTurnStart){
@@ -501,7 +589,10 @@ public class GameView extends StageView {
 	
 	@Override
 	public void onUpdate(){
-		
+		if(curStage == stage.enemy)
+			anotherAim.update();
+		else if(curStage == stage.home)
+			homeAim.update();
 	}
 	
 	@Override
@@ -513,14 +604,19 @@ public class GameView extends StageView {
 		}
 		homefleet = null;
 		
+		for(Ship ship:anotherfleet){
+			ship.recycle();
+		}
+		anotherfleet = null;
+		
 		explosionAni.recycle();
 		explosionAni = null;
 		splashAni.recycle();
 		splashAni = null;
-		homeBroad.recycle();
-		homeBroad = null;
-		anotherBroad.recycle();
-		anotherBroad = null;
+		homeBoard.recycle();
+		homeBoard = null;
+		anotherBoard.recycle();
+		anotherBoard = null;
 		
 		curPos = null;
 		

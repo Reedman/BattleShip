@@ -3,7 +3,7 @@
  */
 package JinUzuki.Game.BattleShip;
 
-import JinUzuki.Game.BattleShip.Data.gameSetting;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -39,7 +38,6 @@ public class GameOverActivity extends Activity {
 	    
 	    Log.e("GameOverActivity","onCreate");
 	    
-	    LinearLayout bg = (LinearLayout)this.findViewById(R.id.gameoverView);
 	    TextView txtV = (TextView)this.findViewById(R.id.txtViewRst);
 	    
 	   // bg.setBackgroundResource(R.drawable.victory);

@@ -11,4 +11,6 @@
 	<string name="mSetting">设置</string>
 	<string name="mQuit">退出</string>
 	<string name="desc">描述</string>
+	<string name="mRandom">随机</string>
+	<string name="mReady">开始</string>
 </resources>

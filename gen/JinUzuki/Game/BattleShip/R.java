@@ -75,6 +75,8 @@ public final class R {
         public static final int dshipID=0x7f040005;
         public static final int hello=0x7f040000;
         public static final int mQuit=0x7f040009;
+        public static final int mRandom=0x7f04000b;
+        public static final int mReady=0x7f04000c;
         public static final int mSetting=0x7f040008;
         public static final int mStart=0x7f040007;
         public static final int mshipID=0x7f040004;

@@ -23,7 +23,6 @@
             android:src="@drawable/title" />
 
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
