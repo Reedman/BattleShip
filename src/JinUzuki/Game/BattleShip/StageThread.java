@@ -3,7 +3,9 @@
  */
 package JinUzuki.Game.BattleShip;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import at.bartinger.candroid.Constants;
@@ -25,6 +27,7 @@ public class StageThread extends Thread {
 	private Runnable mEvent;
 	private SurfaceHolder mSurfaceHolder =null;
 	private StageView view;
+	private CacheScreen screen;
 	private Canvas canvas;
 
 	public boolean hasSurface = false;
@@ -42,6 +45,8 @@ public class StageThread extends Thread {
 		homeRenderer = hrd;
 		anotherRenderer = ard;
 		this.view = view;
+		
+		screen = new CacheScreen(view.SCREEN_WIDTH);
 		mSurfaceHolder = view.getHolder();
 		setName(name);
 	}
@@ -92,16 +97,30 @@ public class StageThread extends Thread {
 				canvas = mSurfaceHolder.lockCanvas();
 
 				if (canvas != null) {
-					view.onUpdate();
-					view.onStartDrawing(canvas);
 					
-					if(mHome)
-						homeRenderer.drawFrame(canvas);
-					else
-						anotherRenderer.drawFrame(canvas);
+					if(mCache){
+						if(screen.update()){
+							mCache = false;
+						}
+						else{
+							screen.draw(canvas);
+						}
+					}
+					else{
+						view.onUpdate();
+						view.onStartDrawing(canvas);
 					
-					view.onStopDrawing(canvas);
+						if(mHome)
+							homeRenderer.drawFrame(canvas);
+						else
+							anotherRenderer.drawFrame(canvas);
+					
+						view.onStopDrawing(canvas);
+					}
+				
 					mSurfaceHolder.unlockCanvasAndPost(canvas);
+
+					//canvas.dr
 				}else{
 					//Log.e(Constants.LOGTAG, "Canvas are null");
 				}
@@ -135,7 +154,34 @@ public class StageThread extends Thread {
 	
 	public void switchRenderer(){
 		synchronized(this) {
+			mCache = true;
+			
+			Bitmap bp = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+            
+			
+			Canvas d = new Canvas(bp);
+            
+			if(mHome)
+				homeRenderer.drawFrame(d);
+			else
+				anotherRenderer.drawFrame(d);
+			
 			mHome = !mHome;
+			 
+			//Bitmap bp = view.getDrawingCache();
+			//Bitmap bp = screen.cacheImage;
+			
+			/*
+			for(int i=0;i<bp.getWidth();i++){
+				for(int j=0;j<bp.getHeight();j++){
+					bp.setPixel(i, j, Color.GREEN);
+				}
+			}*/
+			//bp.copyPixelsToBuffer(dst)
+			
+
+			
+			screen.setCacheBitmap(bp);
 		}
 	}
 

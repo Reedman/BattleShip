@@ -21,6 +21,7 @@ import JinUzuki.Game.BattleShip.shape.Board;
 import JinUzuki.Game.BattleShip.shape.Grid;
 import JinUzuki.Game.BattleShip.shape.Ship;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -315,6 +316,7 @@ public class GameView extends StageView {
 	public void randomShips(){
 		//Utility.randomShip(fleet);
 		Utility.prepareFleet(homefleet);
+		
 	}
 	
     final Handler viewHandler = new Handler();

@@ -353,9 +353,9 @@ public class BattleShipActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				//gView.switchStage();
+				gView.switchStage();
 				
-				
+				/*
 				if(gView.StartMission()){
 					
 					
@@ -370,7 +370,7 @@ public class BattleShipActivity extends Activity {
 					prevBtn.setVisibility(View.VISIBLE);
 					nextBtn.setVisibility(View.VISIBLE);
 					
-				}
+				}*/
 			}
         });
         
